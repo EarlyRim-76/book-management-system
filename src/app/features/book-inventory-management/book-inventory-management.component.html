@@ -4,32 +4,85 @@
         <table class="table">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">BookId</th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Genre</th>
+                <th scope="col">IBSN</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>twitter</td>
-              </tr>
+              @for (book of books; track $index) {
+                <tr>
+                  <th scope="row">{{book.bookId}}</th>
+                  <td>{{book.title}}</td>
+                  <td>{{book.author}}</td>
+                  <td>{{book.genre}}</td>
+                  <td>{{book.ibsn}}</td>
+                  <td>{{book.price}}</td>
+                  <td>{{book.stockQuantity}}</td>
+                  <td>
+                    <div class="d-flex justify-content-between align-items-center gap-0">
+                      <button class="btn btn-danger"><mat-icon>delete</mat-icon></button>
+
+                      <button class="btn btn-light"><mat-icon>edit</mat-icon></button>
+                      <!--open modal-->
+                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#view-modal"><mat-icon>visibility</mat-icon></button>
+                      <!-- View Modal -->
+                      <div class="modal fade" id="view-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title fw-bold" id="exampleModalLabel">Book Description</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="row">
+                                <div class="col">
+                                  <p class="fs-5 fw-bold">Title</p>
+                                  <p>{{book.title}}</p>
+                                </div>
+                                <div class="col">
+                                  <p class="fs-5 fw-bold">Author</p>
+                                  <p>{{book.author}}</p>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col">
+                                  <p class="fs-5 fw-bold">Genre</p>
+                                  <p>{{book.genre}}</p>
+                                </div>
+                                <div class="col">
+                                  <p class="fs-5 fw-bold">IBSN</p>
+                                  <p>{{book.ibsn}}</p>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col">
+                                  <p class="fs-5 fw-bold">Price</p>
+                                  <p>${{book.price}}</p>
+                                </div>
+                                <div class="col">
+                                  <p class="fs-5 fw-bold">Stock Quantity</p>
+                                  <p>{{book.stockQuantity}}</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr> 
+              }  
             </tbody>
           </table>
     </div>
-
 </div>
