@@ -24,10 +24,19 @@ export class BooksDataService {
   getBookById(bookId: number): Book | undefined {
     return this.books.find(x => x.bookId === bookId);
   }
+  
+  getBookByName(bookTitle: string) : Book | undefined {
+    return this.books.find(book => book.title === bookTitle);
+  }
+
+  getBooksByTitle(bookTItle: string) : Book[] | undefined {
+    return this.books.filter(book => book.title.includes(bookTItle))
+  }
 
   addBook(book: Book) : void{
     this.books.push(book)
   }
+  
 
   deleteBook(bookId:number): void{
     this.books.splice(bookId, 1);

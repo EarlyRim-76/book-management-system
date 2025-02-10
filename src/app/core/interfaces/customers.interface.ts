@@ -1,4 +1,4 @@
-export interface Customers{
+export interface ICustomers{
     customerId? : number;
     name: string;
     email: string;

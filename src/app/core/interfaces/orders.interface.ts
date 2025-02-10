@@ -1,4 +1,4 @@
-export interface Order{
+export interface IOrder{
     orderId? : number;
     customerId? : number;
     orderDate : Date;
