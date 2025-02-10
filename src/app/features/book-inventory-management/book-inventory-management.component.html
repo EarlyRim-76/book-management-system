@@ -1,6 +1,72 @@
 <app-book-management-header></app-book-management-header>
 <div class="container">
-    <div class="row">
+    <div class="row ">
+      <div class="col-6">
+
+      </div>
+      <div class="col-6 d-flex justify-content-end align-items-center gap-2">
+        <input type="text" class="form-control" id="searchTitle" placeholder="Search name" [formControl]="bookTitle">
+        <button class="btn btn-light" (click)="searchBook()"><mat-icon>search</mat-icon></button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-modal"><mat-icon>add</mat-icon></button>
+
+        <!-- Add Modal -->
+        <div class="modal fade" id="add-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">       
+                  <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="exampleModalLabel">Add New Book</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">   
+                    <form [formGroup]="bookForm">              
+                      <div class="row">
+                        <div class="col">
+                          <label for="bookTitle" class="form-label">Title</label>
+                          <input type="text" class="form-control" id="bookTitle"  formControlName="title" >
+                        </div>
+                        <div class="col">
+                          <label for="bookAuthor" class="form-label">Author</label>
+                          <input type="text" class="form-control" id="bookAuthor"  formControlName="author">
+                        </div>
+                      </div> 
+                      <div class="row">
+                        <div class="col">
+                          <label for="bookGenre" class="form-label">Genre</label>
+                          <input type="text" class="form-control" id="bookGenre"  formControlName="genre"> 
+                        </div>
+                        <div class="col">
+                          <label for="bookIBSN" class="form-label">IBSN</label>
+                          <input type="text" class="form-control" id="bookIBSN"  formControlName="ibsn">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                          <label for="bookPrice" class="form-label">Price</label>
+                          <input type="number" class="form-control" id="bookPrice" formControlName="price">
+                        </div>
+                        <div class="col">
+                          <label for="bookStockQuantity" class="form-label">Stock Quantity</label>
+                          <input type="number" class="form-control" id="bookStockQuantity" formControlName="stockQuantity">
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <div class="d-flex justify-content-between align-items-center gap-2">
+                        <div class="d-flex gap-2">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addNewBook()">Add book</button> 
+                        </div>
+                    </div>
+                      
+                  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-2">
         <table class="table">
             <thead>
               <tr>
@@ -28,7 +94,7 @@
                     <div class="d-flex justify-content-between align-items-center gap-0">
                       <button class="btn btn-danger"><mat-icon>delete</mat-icon></button>
 
-                      <button class="btn btn-light"><mat-icon>edit</mat-icon></button>
+                      <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#edit-modal" (click)="editBook(book, $index)"><mat-icon>edit</mat-icon></button>
                       <!--open modal-->
                       <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#view-modal"><mat-icon>visibility</mat-icon></button>
                       <!-- View Modal -->
@@ -78,6 +144,84 @@
                           </div>
                         </div>
                       </div>
+
+                      <!-- Edit Modal -->
+                      <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            
+                                <div class="modal-header">
+                                  <h5 class="modal-title fw-bold" id="exampleModalLabel">Edit book</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">   
+                                  <form [formGroup]="bookForm">              
+                                    <div class="row">
+                                      <div class="col">
+                                        <label for="bookTitle" class="form-label">Title</label>
+                                        <input type="text" class="form-control" id="bookTitle"  formControlName="title" >
+                                        @if(!this.bookForm.controls.title.valid && this.bookForm.controls.title.touched ){
+                                          <div class="invalid-form fs-6">Please input a title</div>
+                                        }
+                                      </div>
+                                      <div class="col">
+                                        <label for="bookAuthor" class="form-label">Author</label>
+                                        <input type="text" class="form-control" id="bookAuthor"  formControlName="author">
+                                        @if(!this.bookForm.controls.author.valid && this.bookForm.controls.author.touched ){
+                                          <div class="invalid-form fs-6">Please input a title</div>
+                                        }
+                                      </div>
+                                    </div> 
+                                    <div class="row">
+                                      <div class="col">
+                                        <label for="bookGenre" class="form-label">Genre</label>
+                                        <input type="text" class="form-control" id="bookGenre"  formControlName="genre"> 
+                                        @if(!this.bookForm.controls.genre.valid && this.bookForm.controls.genre.touched ){
+                                          <div class="invalid-form fs-6">Please input a title</div>
+                                        }
+                                      </div>
+                                      <div class="col">
+                                        <label for="bookIBSN" class="form-label">IBSN</label>
+                                        <input type="text" class="form-control" id="bookIBSN"  formControlName="ibsn">
+                                        @if(!this.bookForm.controls.ibsn.valid && this.bookForm.controls.ibsn.touched ){
+                                          <div class="invalid-form fs-6">Please input a title</div>
+                                        }
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col">
+                                        <label for="bookPrice" class="form-label">Price</label>
+                                        <input type="number" class="form-control" id="bookPrice" formControlName="price">
+                                        @if(!this.bookForm.controls.price.valid && this.bookForm.controls.price.touched ){
+                                          <div class="invalid-form fs-6">Please input a title</div>
+                                        }
+                                      </div>
+                                      <div class="col">
+                                        <label for="bookStockQuantity" class="form-label">Stock Quantity</label>
+                                        <input type="number" class="form-control" id="bookStockQuantity" formControlName="stockQuantity">
+                                        @if(!this.bookForm.controls.stockQuantity.valid && this.bookForm.controls.stockQuantity.touched ){
+                                          <div class="invalid-form fs-6">Please input a title</div>
+                                        }
+                                      </div>
+                                    </div>
+                                  </form>
+                                </div>
+                                <div class="modal-footer">
+                                  <div class="d-flex justify-content-between align-items-center gap-2">
+                                      @if(!this.bookForm.valid && this.bookForm.touched ){
+                                        <div class="invalid-form fs-6">Please fill up the forms</div>
+                                      }
+                                      <div class="d-flex gap-2">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!bookForm.valid" (click)="updateBooks()">Save changes</button> 
+                                      </div>
+                                  </div>
+                                    
+                                </div>
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
                   </td>
                 </tr> 
