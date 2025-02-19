@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, Component, inject, OnInit, TemplateRef } from '@angular/core';
-import { BookManagementHeaderComponent } from '../../layouts/book-management-header/book-management-header.component';
-import { BooksDataService } from '../../core/services/books.data.service';
-import { Book } from '../../core/models/book.model';
+import { BookManagementHeaderComponent } from '../../../layouts/book-management-header/book-management-header.component';
+import { BooksDataService } from '../../../core/services/books.data.service';
+import { Book } from '../../../core/models/book.model';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IBook } from '../../core/interfaces/book.interface';
+import { IBook } from '../../../core/interfaces/book.interface';
 import { Route } from '@angular/router';
 
 
