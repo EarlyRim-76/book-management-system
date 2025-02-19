@@ -8,5 +8,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), ReactiveFormsModule, provideRouter(routes), provideAnimationsAsync()]
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    ReactiveFormsModule, 
+    provideRouter(routes), //Routing 
+    provideAnimationsAsync() // Animation
+  ]
 };

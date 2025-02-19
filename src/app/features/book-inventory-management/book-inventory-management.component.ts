@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, TemplateRef } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, TemplateRef } from '@angular/core';
 import { BookManagementHeaderComponent } from '../../layouts/book-management-header/book-management-header.component';
 import { BooksDataService } from '../../core/services/books.data.service';
 import { Book } from '../../core/models/book.model';
@@ -7,10 +7,14 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IBook } from '../../core/interfaces/book.interface';
+import { Route } from '@angular/router';
+
+
+
 
 @Component({
   selector: 'app-book-inventory-management',
-  imports: [BookManagementHeaderComponent, MatDialogModule, MatIconModule, ReactiveFormsModule],
+  imports: [ MatDialogModule, MatIconModule, ReactiveFormsModule],
   templateUrl: './book-inventory-management.component.html',
   styleUrl: './book-inventory-management.component.scss'
 })
@@ -20,10 +24,16 @@ export class BookInventoryManagementComponent implements OnInit{
   //using ng-template
   dialogRef : MatDialogRef<any>;
   dialog  = inject(MatDialog);
-  bookDataService = inject(BooksDataService);
+  private cdr = inject(ChangeDetectorRef)
+  private bookDataService = inject(BooksDataService);
   index : number;
-  bookTitle = new FormControl('')
-  books: Book[] = []
+  bookTitle = new FormControl('');
+
+  //Pagination 
+  rowsPerPage = 5;
+  currentPage = 1;
+  books: Book[] = [];
+  getAllBooks: Book[] = [];
 
   bookForm = new FormGroup({
     title : new FormControl('', Validators.required),
@@ -34,19 +44,40 @@ export class BookInventoryManagementComponent implements OnInit{
     stockQuantity: new FormControl(0, Validators.required)
 
   })
-
   
     ngOnInit(): void {
-      this.books = this.bookDataService.getBooks();
+      this.getAllBooks = this.bookDataService.getBooks(); 
+      console.log(this.getAllBooks)
+      this.populateTable()
+    }
+
+    populateTable(){
+      const start = (this.currentPage - 1) * this.rowsPerPage;
+      this.books = this.getAllBooks.slice(start, start + this.rowsPerPage);
     }
 
     searchBook(){ 
       this.books = this.bookDataService.getBooksByTitle(this.bookTitle.value);
     }
 
+    resetForm(){
+      this.bookForm.reset();
+    }
+
+    previousPage(){
+      this.currentPage--;
+      this.populateTable();
+    }
+
+    nextPage(){
+      this.currentPage++;
+      this.populateTable();
+    }
+
+
     addNewBook(){
       let newBook : IBook = {
-        bookId : this.books.length + 1,
+        bookId : this.getAllBooks.length + 1,
         title: this.bookForm.controls.title.value,
         author: this.bookForm.controls.author.value,
         genre: this.bookForm.controls.genre.value,

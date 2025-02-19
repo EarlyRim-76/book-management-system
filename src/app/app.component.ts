@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { BookInventoryManagementComponent } from './features/book-inventory-management/book-inventory-management.component';
+import { BookManagementHeaderComponent } from './layouts/book-management-header/book-management-header.component';
 
 @Component({
   selector: 'app-root',
-  imports: [BookInventoryManagementComponent],
+  imports: [RouterOutlet, BookManagementHeaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
